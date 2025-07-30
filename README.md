@@ -7,6 +7,10 @@ ros2 launch urg_node2 urg_node2.launch.py
 ```bash
 ros2 launch my_tf_broadcaster my_tf_launch.py
 ```
+## Odpalanie nodea od mapy
+```bash
+ros2 launch slam_toolbox online_async_launch.py
+```
 **TF NALEZY ODPALIC PO WCZESNIEJSZYM ODPALENIU NODEA OD LIDARA!!!!!**
 ## Buildowanie ws
 Po kazdej zmianie w jakimkolwiek pliku wewnatrz src nalezy ponownie zbuildowac ws i zaktulizowac srodowisko.
