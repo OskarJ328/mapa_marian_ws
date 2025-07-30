@@ -19,4 +19,8 @@ w lokalizacji
 ```bash
 ~/ros2_ws/drzewka_tf
 ```
-kazde drzewko zapisuje sie w katalogu ktory ma w swojej nazwie date wygenerowania drzewka
+kazde drzewko zapisuje sie w katalogu ktory ma w swojej nazwie date wygenerowania drzewka.  
+W celu odpalenia skrytpu nalezy wpisac w terminalu
+```bash
+stworz_drzewko_tf
+```
