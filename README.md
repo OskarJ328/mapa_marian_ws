@@ -13,3 +13,10 @@ Jakby cos to skrypt znajduje sie na laptopie R4H w lokalizacji
 ```bash
 ~/skrypty
 ```
+## Tworzenie drzewka tf
+Aby drzewko nie tworzylo sie w biezacej lokalizacji tak jak jest to domyslnie stworzylem prosty skrypt, ktory tworzy wszystkie drzewka
+w lokalizacji
+```bash
+~/ros2_ws/drzewka_tf
+```
+kazde drzewko zapisuje sie w katalogu ktory ma w swojej nazwie date wygenerowania drzewka
