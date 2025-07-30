@@ -1,0 +1,3 @@
+<robot name="minimal">
+  <link name="base_link"/>
+</robot>
