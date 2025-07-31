@@ -1,4 +1,8 @@
 # Notatka
+## Odpalanie nodea od odometrii
+```bash
+docker run -it --rm --net=host --device=/dev/ttyUSB0 microros/micro-ros-agent:humble serial --dev /dev/ttyUSB0
+```
 ## Odpalanie nodea od Lidara
 ```bash
 ros2 launch urg_node2 urg_node2.launch.py
