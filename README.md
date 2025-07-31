@@ -1,17 +1,27 @@
 # Notatka
-## Odpalanie nodea od odometrii
+## Odpalenie calego systemu
+Na komputerze R4H stworzylem alias w bashrc dzieki ktoremu wystarczy po prostu w terminalu wpisac
+```bash
+marian_launch
+```
+Natomiast sam skrypt mozna rownie dobrze odpalic wpisujac w terminalu
+```bash
+bash ~/ros2_ws/marian_launch.sh
+```
+## Odpalenie pojedynczych nodeow
+### Odpalanie nodea od odometrii
 ```bash
 docker run -it --rm --net=host --device=/dev/ttyUSB0 microros/micro-ros-agent:humble serial --dev /dev/ttyUSB0
 ```
-## Odpalanie nodea od Lidara
+### Odpalanie nodea od Lidara
 ```bash
 ros2 launch urg_node2 urg_node2.launch.py
 ```
-## Odpalenie nodea od tf
+### Odpalenie nodea od tf
 ```bash
 ros2 launch my_tf_broadcaster my_tf_launch.py
 ```
-## Odpalanie nodea od mapy
+### Odpalanie nodea od mapy
 ```bash
 ros2 launch slam_toolbox online_async_launch.py
 ```
