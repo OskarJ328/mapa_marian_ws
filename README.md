@@ -1,4 +1,7 @@
 # Notatka
+## Do zrobienia
+*Stworz w ws katalog skrypty i dodaj tam pozostale skrypty ktore sa wspomniane w readme.* 
+***Pamietaj o zmienieniu sciezki do plikow w bashrc***
 ## Odpalenie calego systemu
 Na komputerze R4H stworzylem alias w bashrc dzieki ktoremu wystarczy po prostu w terminalu wpisac
 ```bash
