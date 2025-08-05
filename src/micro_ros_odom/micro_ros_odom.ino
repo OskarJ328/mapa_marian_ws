@@ -25,6 +25,15 @@ const float rozstaw_kol = 0.37;
 const float impulsy_na_obrot = 40000.0;
 const float metry_na_impuls = (2.0 * M_PI * promien_kola) / impulsy_na_obrot;
 
+
+#define ODOM_POSE_STDDEV_X_PER_METER 0.02   // Błąd w X na każdy metr jazdy prosto
+#define ODOM_POSE_STDDEV_Y_PER_METER 0.02   // Błąd w Y na każdy metr jazdy prosto (dryft boczny)
+#define ODOM_POSE_STDDEV_YAW_PER_RAD 0.05  // Błąd w orientacji na każdy radian obrotu
+
+#define ODOM_TWIST_STDDEV_VX_PER_M_S 0.05  // Błąd prędkości liniowej na każdy m/s
+#define ODOM_TWIST_STDDEV_VYAW_PER_RAD_S 0.1 // Błąd prędkości kątowej na każdy rad/s
+
+
 volatile long int impulsy_enkL = 0;
 volatile long int impulsy_enkP = 0;
 
@@ -140,13 +149,32 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
       odom_msg.pose.covariance[i] = 0.0;
       odom_msg.twist.covariance[i] = 0.0;
     }
-     // Przykładowe kowariancje (odkomentuj i dostosuj w razie potrzeby)
-    // odom_msg.pose.covariance[0] = 0.01;  // x
-    // odom_msg.pose.covariance[7] = 0.01;  // y
-    // odom_msg.pose.covariance[35] = 0.01; // yaw (indeks dla yaw w kowariancji orientacji)
-    // odom_msg.twist.covariance[0] = 0.01; // vx
-    // odom_msg.twist.covariance[35] = 0.01;// vth (indeks dla yaw rate w kowariancji twist)
 
+    //dynamiczne wyznaczanie elementow macierzy kowariancji, podniesienie do potegi drugiej
+    //wynika z faktu, ze w macierzy kowariancji mamy wariancj, czyli odchylenie standardowe
+    //do kwadratu
+    double pose_var_x = pow(ODOM_POSE_STDDEV_X_PER_METER * delta_dystans, 2);
+    double pose_var_y = pow(ODOM_POSE_STDDEV_Y_PER_METER * delta_dystans, 2);
+    double pose_var_yaw = pow(ODOM_POSE_STDDEV_YAW_PER_RAD * delta_theta, 2);
+    
+    double twist_var_vx = pow(ODOM_TWIST_STDDEV_VX_PER_M_S * v_x, 2);
+    double twist_var_vyaw = pow(ODOM_TWIST_STDDEV_VYAW_PER_RAD_S * v_theta, 2);
+    
+    odom_msg.pose.covariance[0] = pose_var_x;      // Var(x)
+    odom_msg.pose.covariance[7] = pose_var_y;      // Var(y)
+    odom_msg.pose.covariance[35] = pose_var_yaw;   // Var(yaw)
+
+    odom_msg.pose.covariance[14] = 1e-9; // Var(z)
+    odom_msg.pose.covariance[21] = 1e-9; // Var(roll)
+    odom_msg.pose.covariance[28] = 1e-9; // Var(pitch)
+
+    odom_msg.twist.covariance[0] = twist_var_vx;     // Var(vx)
+    odom_msg.twist.covariance[35] = twist_var_vyaw;  // Var(v_theta)
+
+    odom_msg.twist.covariance[7] = 1e-9;  // Var(vy)
+    odom_msg.twist.covariance[14] = 1e-9; // Var(vz)
+    odom_msg.twist.covariance[21] = 1e-9; // Var(wx)
+    odom_msg.twist.covariance[28] = 1e-9; // Var(wy)
 
     odom_msg.twist.twist.linear.x = v_x;
     odom_msg.twist.twist.linear.y = 0.0;
